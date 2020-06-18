@@ -14,6 +14,10 @@ public interface WelcomeWebService {
 
 	List<EgovMap> selectBarChartServiceList() throws Exception;
 
+	String saveForumServiceList(Map<String, Object> paramMap) throws Exception;
+
+	List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception;
+
 	
 
 }

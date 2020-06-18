@@ -6,6 +6,32 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<script>
+$(function() {
+	var todayCookie = $.cookie("todayChk"),
+		chkStr 		= ":checked";
+	
+	if (todayCookie !== chkStr) {
+		$("#todayModal").modal("show");	
+	}
+	
+	$("input[name='todayCheckBox']").change(function() {
+		
+		if ($(this).is(chkStr)) {
+			$.cookie("todayChk", chkStr, { expires: 1 });
+			
+			setTimeout(function() {
+				$("#todayModal").removeClass("in")
+				$("#todayModal").modal("hide");	
+			}, 500);
+
+		}	
+	})
+	
+})
+
+</script>
+
 
 <div class="matter">
 	<div class="container">
@@ -252,6 +278,31 @@
 						</div>
 					</div>
 
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="todayModal" class="modal fade in" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="display:none;" padding-right: 17px;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">쿠키용 팝업</h4>
+				</div>
+				<div class="modal-body">
+					<p>안녕하세요. 이 팝업은 오늘 하루동안 팝업 안 뜨도록 쿠키로 제어하고자 만들어졌습니다. </p>
+				</div>
+				<div class="modal-footer">
+					
+					<label class="checkbox-inline">
+				  <input type="checkbox" name="todayCheckBox" value="option">
+				   오늘 하루동안 보지 않기
+				</label>
 				</div>
 			</div>
 		</div>

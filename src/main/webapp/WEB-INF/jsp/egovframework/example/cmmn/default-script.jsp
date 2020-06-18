@@ -34,6 +34,9 @@
 		<script src="js/chartist.min.js"></script>
 		<!--  Checkbox, Radio, Switch and Tags Input Plugins -->
 		<script src="js/bootstrap-checkbox-radio-switch-tags.js"></script>
+	<!-- cookie JS -->
+		<script src="js/jquery.cookie.js"></script>
+	
 	
 
 		

@@ -12,7 +12,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a href="index.html" class="navbar-brand">KIM <span class="bold">JUHYEON</span></a>
+					<a href="main.do" class="navbar-brand">KIM <span class="bold">JUHYEON</span></a>
 				</div>
 				<!-- Site name for smallar screens -->
 				<!-- Navigation starts -->

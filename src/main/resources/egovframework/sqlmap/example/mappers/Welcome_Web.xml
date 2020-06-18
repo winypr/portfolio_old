@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.welcomeWeb.service.impl.WelcomeWebMapper">
 
-	
 	<select id="selectPieChartServiceList" resultType="egovMap">
 		select category as labels
 			 , round(count(category) / (select count(ST.TABLE_NO) from t_portfolio as ST) * 100) series
@@ -30,8 +29,6 @@
 		from  t_portfolio) as inner_table
 	where inner_table.month_diff > 21
 	</select>
-	
-	
 	
 	<select id="selectWelcomeWebServiceList" parameterType="egovMap" resultType="egovMap">
 		select 	@ROWNUM:= @ROWNUM + 1 no 
@@ -80,5 +77,41 @@
 		</where> 
 		
 	 </select>
+	 
+	 <select id="selectForumServiceList" parameterType="egovMap" resultType="egovMap">
+		select 	fm_no
+				,fm_subj
+				,fm_writer
+				,fm_content
+				,fm_psword
+				,DATE_FORMAT(fm_date,'%Y-%m-%d') as fm_date
+		from 	 t_portfolio_fm
+		
+		<where>
+		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+		 	AND fm_no = #{fmNo}
+		</if>
+		</where>
+		</select>
+	 
+	 <insert id="insertForumServiceList"  parameterType="egovMap">
+		insert into t_portfolio_fm
+		(
+			FM_SUBJ
+			,FM_WRITER
+			,FM_CONTENT
+			,FM_PSWORD
+			,FM_DATE
+		)
+	 	values
+	 	(
+		 	#{forumName}
+			,#{forumTitle}
+			,#{forumContent}
+			,#{forumPassWord}
+			,NOW()
+	 	)
+	</insert>
+	 
 
 </mapper>

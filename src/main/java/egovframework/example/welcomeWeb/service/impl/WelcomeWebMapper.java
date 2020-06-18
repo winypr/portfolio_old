@@ -16,6 +16,12 @@ public interface WelcomeWebMapper {
 
 	List<EgovMap> selectWelcomeWebServiceList(Map<String, Object> paramMap) throws Exception;
 
+	String saveForumServiceList(Map<String, Object> paramMap) throws Exception;
+
+	void insertForumServiceList(Map<String, Object> paramMap) throws Exception;
+
+	List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception;
+
 	
 
 }

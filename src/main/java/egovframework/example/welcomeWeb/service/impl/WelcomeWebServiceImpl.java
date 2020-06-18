@@ -35,8 +35,28 @@ public class WelcomeWebServiceImpl implements WelcomeWebService{
 	@Override
 	public List<EgovMap> selectWelcomeWebServiceList(Map<String, Object> paramMap) throws Exception{
 		
+		
 		return welcomeWebMapper.selectWelcomeWebServiceList(paramMap);
 		
+	}
+
+	@Override
+	public String saveForumServiceList(Map<String, Object> paramMap) throws Exception {
+		
+		EgovMap resultMap = new EgovMap();
+		
+		welcomeWebMapper.insertForumServiceList(paramMap);
+
+		resultMap.put("result", "SUCCESS");
+		
+		System.out.println(resultMap);		
+		return JsonUtil.EgovMapToJson(resultMap);
+	}
+
+	@Override
+	public List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return welcomeWebMapper.selectForumServiceList(paramMap);
 	}
 
 	

@@ -39,7 +39,6 @@ public class WelcomeWebController {
 			List<EgovMap> pieChartList 		= welcomeWebService.selectPieChartServiceList();
 			List<EgovMap> barChartList 		= welcomeWebService.selectBarChartServiceList();
 			
-			
 			model.addAttribute("welcomeWeb", 	welcomeWebList);
 			model.addAttribute("pieChart", 		pieChartList);
 			model.addAttribute("barChart", 		barChartList);
@@ -79,26 +78,73 @@ public class WelcomeWebController {
 	@ResponseBody
 	@RequestMapping(value = "/searchTableList.do", produces = "application/json; charset=utf8")
 	public String searchTableListInit(@RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception {
-		List<EgovMap> hanqList = new ArrayList<>();
-		
+		List<EgovMap> tableList = new ArrayList<>();
+		System.out.println(paramMap);
 		try {
 			
-			hanqList = welcomeWebService.selectWelcomeWebServiceList(paramMap);
+			tableList = welcomeWebService.selectWelcomeWebServiceList(paramMap);
 			//
-			System.out.println("***paramMap" + paramMap);
-			System.out.println("***hanqList" + hanqList);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return JsonUtil.ListToJson(hanqList);
+		return JsonUtil.ListToJson(tableList);
 	}
 	
-	@RequestMapping("/tabMenu.do")
-	public String initTabMenu() throws Exception {
-		
-		return  "main/tabMenu.tabtiles";
 
+	@RequestMapping("/forum.do")
+	public String initForum(@RequestParam Map<String, Object>paramMap, ModelMap model) throws Exception {
+		
+		List<EgovMap> listMap = new ArrayList<>();
+		
+		try {
+			listMap = welcomeWebService.selectForumServiceList(paramMap);
+			model.addAttribute("forumList" , listMap);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return  "forum/forum.tiles";
+
+	}
+	
+
+	@RequestMapping("/forumWrite.do")
+	public String initForumWrite() throws Exception {
+		
+		
+		return "forumWrite/forumWrite.tiles";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/searchforumVeiw.do")
+	public String searchforumVeiw(@RequestParam Map<String, Object>paramMap) throws Exception {
+		
+		List<EgovMap> listMap = new ArrayList<>();
+				
+		try {
+			listMap = welcomeWebService.selectForumServiceList(paramMap);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		System.out.println(listMap);
+		return JsonUtil.ListToJson(listMap);
+	}
+
+	@RequestMapping("/forumView.do")
+	public String initForumView() throws Exception {
+		
+		return "forumView/forumView.tiles";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/saveForum.do")
+	public String saveForum(@RequestParam Map<String, Object> paramMap) throws Exception {
+	
+		return welcomeWebService.saveForumServiceList(paramMap);
 	}
 	
 	@RequestMapping("/{step}.do")
@@ -109,4 +155,12 @@ public class WelcomeWebController {
 		return  page[0] + "/" + page[1] ;
 
 	}
+	
+	@RequestMapping("/tabMenu.do")
+	public String initTabMenu() throws Exception {
+		
+		return  "main/tabMenu.tabtiles";
+
+	}
+	
 }

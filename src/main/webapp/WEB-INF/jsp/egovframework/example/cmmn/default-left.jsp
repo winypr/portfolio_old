@@ -92,7 +92,6 @@
 			// 탭 하이라이트
 			highLightC.activeTabFn.call($li);
 		
-			
 			 // 레프트 하이라이트
 			highLightC.activeFn($li.data("code")); 
 
@@ -269,7 +268,7 @@
 					<ul id ="leftUL" class="navi">
 						<!-- Use the class nred, ngreen, nblue, nlightblue, nviolet or norange to add background color. You need to use this in <li> tag. -->
 							
-						<li id="main" class="nred"><a href="#"><i class="fa fa-desktop"></i>이력서</a></li>
+						<li id="main" class="nred"><a href="#"><i class="fa fa-desktop"></i> 이력서</a></li>
 						<!-- Menu with sub menu -->
 						<li id="dataTable" class="has_submenu nlightblue">
 							<a href="#">
@@ -297,10 +296,17 @@
 								<li id="tab_page5"><a href="#">section 5</a></li>
 								<li id="tab_page6"><a href="#">section 6</a></li>
 							</ul>
-						</li> 
-						
-					</ul>
-					<!--/ Sidebar navigation -->
+						</li>
+						<li id="forum" class="has_submenu norange">
+						<a href="#"><i class="fa fa-list"></i> 게시판 
+						<span class="pull-right"><i	class="fa fa-angle-right"></i></span> 
+						</a>
+							<ul>
+								<li id="forumWrite"><a href="#">글쓰기 </a></li>
+			
+							</ul>
+						</li>
+			<!--/ Sidebar navigation -->
 
 					<!-- Date -->
 					<div class="sidebar-widget">

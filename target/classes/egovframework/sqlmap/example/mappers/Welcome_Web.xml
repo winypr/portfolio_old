@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.welcomeWeb.service.impl.WelcomeWebMapper">
+
+	<select id="selectPieChartServiceList" resultType="egovMap">
+		select category as labels
+			 , round(count(category) / (select count(ST.TABLE_NO) from t_portfolio as ST) * 100) series
+		  from t_portfolio
+	  group by category
+	</select>
+	
+	<select id="selectBarChartServiceList" resultType="egovMap">
+	select   CONCAT(inner_table.month_diff,'개월')as labels
+			,count(inner_table.month_diff) as series
+	from
+			(select datediff(dp_end_dt, dp_strt_dt) as date_diff
+					,(floor(datediff(dp_end_dt, dp_strt_dt) / 30)) as month_diff
+			from t_portfolio) as inner_table
+	group by  inner_table.month_diff
+	having 	  <![CDATA[ inner_table.month_diff < 21 ]]>
+	
+	union
+
+	select '1년 이상' as labels
+			,count(inner_table.month_diff) as series
+	from
+		(select datediff(dp_end_dt, dp_strt_dt) as date_diff
+				,(floor(datediff(dp_end_dt, dp_strt_dt) / 30)) as month_diff
+		from  t_portfolio) as inner_table
+	where inner_table.month_diff > 21
+	</select>
+	
+	<select id="selectWelcomeWebServiceList" parameterType="egovMap" resultType="egovMap">
+		select 	@ROWNUM:= @ROWNUM + 1 no 
+				,pt.category
+				,pt.title
+				,DATE_FORMAT(pt.dp_strt_dt,'%Y-%m-%d') as dp_strt_dt
+				,DATE_FORMAT(pt.dp_end_dt,'%Y-%m-%d') as dp_end_dt
+				,pt.place
+		from 	 t_portfolio as pt, (SELECT @ROWNUM:=0) R
+		 <where>
+		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(title)">
+			<choose>
+				<when test='srchTp == "N"'>
+					AND pt.title LIKE CONCAT('%', #{title}, '%')
+				</when>
+				<when test='srchTp == "T"'>
+					AND pt.category LIKE CONCAT('%', #{title}, '%')
+				</when>
+				<when test='srchTp == "P"'>
+					AND pt.place LIKE CONCAT('%', #{title}, '%')
+				</when>
+				<when test='srchTp == "A"'>
+					AND (pt.title LIKE CONCAT('%', #{title}, '%')
+					OR pt.category LIKE CONCAT('%', #{title}, '%')
+					OR pt.place LIKE CONCAT('%', #{title}, '%'))
+				</when>
+			</choose>
+		</if> 
+                  
+         <choose>
+          <when test="@egovframework.example.cmmn.StringUtil@notEmpty(dpStrtDt) and @egovframework.example.cmmn.StringUtil@notEmpty(dpEndDt)">
+             <![CDATA[
+             AND NOT ( (DATE(dp_strt_dt) > DATE(#{dpStrtDt}) AND DATE(dp_strt_dt) > DATE(#{dpEndDt}))
+                 OR (DATE(dp_end_dt) < DATE(#{dpStrtDt}) AND DATE(dp_end_dt) < DATE(#{dpEndDt}))
+                  )      
+           	]]>
+         </when>
+         <when test="@egovframework.example.cmmn.StringUtil@notEmpty(dpStrtDt)">
+         	AND DATE(dp_end_dt) >= DATE(#{dpStrtDt}) 
+         </when>
+         <when test="@egovframework.example.cmmn.StringUtil@notEmpty(dpEndDt)">
+          	AND DATE(#{dpEndDt}) >= DATE(dp_strt_dt) 
+         </when>
+        </choose>
+           
+		</where> 
+		
+	 </select>
+	 
+	 <select id="selectForumServiceList" parameterType="egovMap" resultType="egovMap">
+		select 	fm_no
+				,fm_subj
+				,fm_writer
+				,fm_content
+				,fm_psword
+				,DATE_FORMAT(fm_date,'%Y-%m-%d') as fm_date
+		from 	 t_portfolio_fm
+		
+		<where>
+		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+		 	AND fm_no = #{fmNo}
+		</if>
+		</where>
+		</select>
+	 
+	 <insert id="insertForumServiceList"  parameterType="egovMap">
+		insert into t_portfolio_fm
+		(
+			FM_SUBJ
+			,FM_WRITER
+			,FM_CONTENT
+			,FM_PSWORD
+			,FM_DATE
+		)
+	 	values
+	 	(
+		 	#{forumName}
+			,#{forumTitle}
+			,#{forumContent}
+			,#{forumPassWord}
+			,NOW()
+	 	)
+	</insert>
+	 
+
+</mapper>

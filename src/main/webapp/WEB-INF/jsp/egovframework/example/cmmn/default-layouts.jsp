@@ -24,10 +24,14 @@
 		
 		<!-- Matter -->
 		<tiles:insertAttribute name="content" />
+<<<<<<< HEAD
 			
 			</div><!--/ Mainbar ends -->	 
 			<div class="clearfix"></div>
 			   	
+=======
+			</div><!--/ Mainbar ends -->	    	
+>>>>>>> refs/remotes/origin/master
 			<!--/ Content ends -->
 
 
